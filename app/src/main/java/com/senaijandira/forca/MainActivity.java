@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.speech.tts.TextToSpeech;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,10 +22,14 @@ public class MainActivity extends Activity{
     Button btnDica;
     TextView txtDica;
     ImageView imgForca;
+    TextToSpeech vozGoogle;
+    
     int quantAcertos = 0;
     int quantErros = 0;
     int aux = 0;
     String textDica = "";
+    
+    
 
 
     private void gerarListener(){
@@ -136,7 +141,17 @@ public class MainActivity extends Activity{
     }
 
     public void dica(View v){
+        vozGoogle = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR){
+                    vozGoogle.setLanguage(new Locale("pt","br"));
+                     }
+                }
+            });
+        
         textDica = "Liguagem de programação";
+        vozGoogle.speak(textDica,TextToSpeech.QUEUE_FLUSH,null);
         btnDica.setEnabled(false);
         txtDica.setText(textDica);
 
