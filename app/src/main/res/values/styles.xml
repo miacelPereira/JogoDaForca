@@ -21,5 +21,13 @@
         <item name="android:layout_margin">4dp</item>
         <item name="android:textSize">20sp</item>
     </style>
+    <style name="btnDica" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">83dp</item>
+        <item name="android:background">@color/colorAzul</item>
+        <item name="android:textColor">@color/colorBranco</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 
 </resources>

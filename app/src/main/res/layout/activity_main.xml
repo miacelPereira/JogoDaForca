@@ -10,11 +10,17 @@
         android:orientation="vertical"
         android:gravity="center"
         android:padding="16dp">
-
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:id="@+id/imgForca"
+            android:src=""
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A melhor linguagem de programação:"
+            android:text=""
+            android:id="@+id/txtDica"
             android:layout_gravity="center"
             android:textSize="18sp"
         />
@@ -204,7 +210,12 @@
                 android:text="Z"
                 style="@style/btnLetras"
                 />
+            <Button
+                android:id="@+id/btnDica"
+                android:text="Dica"
+                style="@style/btnDica"
+                android:onClick="dica"
+                />
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>

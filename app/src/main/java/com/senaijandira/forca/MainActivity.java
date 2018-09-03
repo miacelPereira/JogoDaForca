@@ -1,12 +1,15 @@
 package com.senaijandira.forca;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +18,13 @@ public class MainActivity extends Activity{
 
     /* ----------- BTN ----------- */
     Button btn[] = new Button[26];
+    Button btnDica;
+    TextView txtDica;
+    ImageView imgForca;
     int quantAcertos = 0;
     int quantErros = 0;
+    int aux = 0;
+    String textDica = "";
 
 
     private void gerarListener(){
@@ -36,7 +44,7 @@ public class MainActivity extends Activity{
     int resposta[] = {9, 0, 21, 0}; /* GABARITO DE REPOSTA DA PALAVRA "JAVA" */
     TextView txtResposta[] = new TextView[resposta.length];
     int contadorAcertos = 0; /* ESSE CONTADOR VAI IR ATÉ O NÚMERO 4 */
-    int contadorErro = 20;
+    int contadorErro = 4;
 
     View.OnClickListener click = (View view) ->{
 
@@ -55,24 +63,30 @@ public class MainActivity extends Activity{
             }
             else if(tag != resposta[i]){/* SETANDO O BTN PARA FALSE SEM COLOCAR O TXT NO TEXTVIEW, POIS O USUÁRIO NÃO ACERTOU */
                 view.setEnabled(false);
-                contadorErro--;
             }
-            if(verificar != 0){
-                view.setBackgroundColor(getResources().getColor(R.color.colorVerde));
-            }else{
-                view.setBackgroundColor(getResources().getColor(R.color.colorVermelho));
+        }
+        if(verificar != 0){
+            view.setBackgroundColor(getResources().getColor(R.color.colorVerde));
+        }else{
+            view.setBackgroundColor(getResources().getColor(R.color.colorVermelho));
+            contadorErro--;
+            if(contadorErro != 0) {
+                Toast toast = Toast.makeText(this, "Você tem " + contadorErro + " chances", Toast.LENGTH_SHORT);
+                toast.show();
             }
         }
         /****************************************************************/
         if(contadorAcertos == 4){
             quantAcertos++;
+            Toast toast = Toast.makeText(this, "Acertos: "+quantAcertos, Toast.LENGTH_SHORT);
+            toast.show();
             alert("Opá, Consagrado(a)!", "Temos um Campeão aqui!", "btn");
-            alert("Resultados:","Você acertou "+quantAcertos+" e errou "+quantErros, "null");
         }
         if(contadorErro == 0){
             quantErros++;
+            Toast toast = Toast.makeText(this, "Erros: "+quantErros, Toast.LENGTH_SHORT);
+            toast.show();
             alert("Eita...", "Você errou", "btn");
-            alert("Resultados:","Você acertou "+quantAcertos+" e errou "+quantErros, "null");
         }
 
         /***********************************************************/
@@ -105,7 +119,10 @@ public class MainActivity extends Activity{
     /* ---------------- REINICIAR JOGO ---------------- */
     private void reiniciarJogo() {
         contadorAcertos = 0;
-        contadorErro = 20;
+        contadorErro = 5;
+        int aux = 0;
+        txtDica.setText("");
+        btnDica.setEnabled(true);
 
         for (int i = 0; i < resposta.length; i++) {
 
@@ -118,12 +135,24 @@ public class MainActivity extends Activity{
         gerarListener();
     }
 
+    public void dica(View v){
+        textDica = "Liguagem de programação";
+        btnDica.setEnabled(false);
+        txtDica.setText(textDica);
 
+    }
     /* ----------- Oncreate ----------- */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        txtDica = new TextView(this);
+        txtDica = findViewById(R.id.txtDica);
+        btnDica = new Button(this);
+        btnDica = findViewById(R.id.btnDica);
+        imgForca = new ImageView(this);
+        imgForca = findViewById(R.id.imgForca);
         gerarListener();
     }
 }
