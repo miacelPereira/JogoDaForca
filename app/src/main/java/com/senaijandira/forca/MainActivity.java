@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 
 public class MainActivity extends Activity{
 
@@ -21,15 +23,15 @@ public class MainActivity extends Activity{
     Button btn[] = new Button[26];
     Button btnDica;
     TextView txtDica;
-    ImageView imgForca;
-    TextToSpeech vozGoogle;
+    TextToSpeech speak;
     
     int quantAcertos = 0;
     int quantErros = 0;
-    int aux = 0;
+    int auxImg = 0;
     String textDica = "";
-    
-    
+
+    ImageView imgForca;
+    String urlImgForca;
 
 
     private void gerarListener(){
@@ -73,8 +75,24 @@ public class MainActivity extends Activity{
         if(verificar != 0){
             view.setBackgroundColor(getResources().getColor(R.color.colorVerde));
         }else{
+
             view.setBackgroundColor(getResources().getColor(R.color.colorVermelho));
             contadorErro--;
+            if(contadorErro == 4){
+                imgForca.setImageResource(R.drawable.forca0);
+            }
+            if(contadorErro == 3){
+                imgForca.setImageResource(R.drawable.forca1);
+            }
+            if(contadorErro == 2){
+                imgForca.setImageResource(R.drawable.forca2);
+            }
+            if(contadorErro == 1){
+                imgForca.setImageResource(R.drawable.forca3);
+            }
+            if(contadorErro == 0){
+                imgForca.setImageResource(R.drawable.forca4);
+            }
             if(contadorErro != 0) {
                 Toast toast = Toast.makeText(this, "Você tem " + contadorErro + " chances", Toast.LENGTH_SHORT);
                 toast.show();
@@ -128,6 +146,7 @@ public class MainActivity extends Activity{
         int aux = 0;
         txtDica.setText("");
         btnDica.setEnabled(true);
+        imgForca.setImageResource(R.drawable.forca);
 
         for (int i = 0; i < resposta.length; i++) {
 
@@ -141,17 +160,9 @@ public class MainActivity extends Activity{
     }
 
     public void dica(View v){
-        vozGoogle = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR){
-                    vozGoogle.setLanguage(new Locale("pt","br"));
-                     }
-                }
-            });
-        
+
         textDica = "Liguagem de programação";
-        vozGoogle.speak(textDica,TextToSpeech.QUEUE_FLUSH,null);
+        speak.speak(textDica, TextToSpeech.QUEUE_FLUSH, null);
         btnDica.setEnabled(false);
         txtDica.setText(textDica);
 
@@ -166,8 +177,21 @@ public class MainActivity extends Activity{
         txtDica = findViewById(R.id.txtDica);
         btnDica = new Button(this);
         btnDica = findViewById(R.id.btnDica);
+
         imgForca = new ImageView(this);
         imgForca = findViewById(R.id.imgForca);
         gerarListener();
+
+        speak = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR){
+
+                    //Setando o idioma para o português
+                    speak.setLanguage(new Locale("pt", "br"));
+
+                }
+            }
+        });
     }
 }

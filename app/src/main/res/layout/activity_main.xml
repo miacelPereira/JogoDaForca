@@ -12,9 +12,9 @@
         android:padding="16dp">
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="120dp"
+            android:layout_height="130dp"
             android:id="@+id/imgForca"
-            android:src=""
+            android:src="@drawable/forca"
             />
         <TextView
             android:layout_width="wrap_content"

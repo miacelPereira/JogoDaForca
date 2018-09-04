@@ -14,26 +14,32 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Venha para o lado da Forca"
-            android:textSize="24sp"
+            android:text="Jogo da Forca"
+            android:textSize="40sp"
             android:textStyle="bold"
+            android:fontFamily="casual"
+            android:layout_marginBottom="10dp"
         />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="200dp"
             android:id="@+id/imgInicio"
-            android:src="@drawable/inicio"
+            android:src="@drawable/incio"
             android:layout_margin="10dp"
+            android:onClick="mudarFoto"
+            android:layout_marginBottom="30dp"
         />
         <Button
             android:layout_width="180dp"
             android:layout_height="50dp"
             android:text="Iniciar"
-            android:textSize="16dp"
+            android:textSize="25dp"
             android:layout_marginTop="10dp"
             android:background="@color/colorAzul"
             android:textColor="@color/colorBranco"
             android:onClick="iniciarJogo"
+            android:fontFamily="casual"
+            android:textStyle="bold"
         />
 
     </LinearLayout>
