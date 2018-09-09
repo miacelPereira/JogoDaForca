@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Locale;
+import java.util.Random;
 
 
 public class MainActivity extends Activity{
@@ -24,16 +25,45 @@ public class MainActivity extends Activity{
     Button btnDica;
     TextView txtDica;
     TextToSpeech speak;
-    
     int quantAcertos = 0;
     int quantErros = 0;
-    int auxImg = 0;
-    String textDica = "";
-
     ImageView imgForca;
-    String urlImgForca;
+    String textDicaAux;
+    int palavraAleatoria = 0;
+
+    int resposta[][] = {
+            {9, 0, 21, 0}, /* GABARITO DE REPOSTA DA PALAVRA "JAVA" */
+            {0, 12, 14, 17}, /* GABARITO DE REPOSTA DA PALAVRA "AMOR" */
+            {2 , 0, 18, 0}, /* GABARITO DE REPOSTA DA PALAVRA "CASA" */
+            {1, 14, 11, 0}, /* GABARITO DE REPOSTA DA PALAVRA "BOLA" */
+            {2, 0, 5, 4}, /* GABARITO DE REPOSTA DA PALAVRA "CAFÉ" */
+            {5, 14, 6, 14}, /* GABARITO DE REPOSTA DA PALAVRA "FOGO" */
+            {6, 4, 11, 14}, /* GABARITO DE REPOSTA DA PALAVRA "GELO" */
+            {14, 3, 8, 14}, /* GABARITO DE REPOSTA DA PALAVRA "ODIO" */
+            {23, 1, 14, 23}, /* GABARITO DE REPOSTA DA PALAVRA "XBOX" */
+            {2, 0, 12, 0}, /* GABARITO DE REPOSTA DA PALAVRA "CAMA" */
+            {0, 17, 19, 4}, /* GABARITO DE REPOSTA DA PALAVRA "ARTE" */
+            {9, 14, 6, 14}, /* GABARITO DE REPOSTA DA PALAVRA "JOGO" */
+            {5, 17, 8, 14} /* GABARITO DE REPOSTA DA PALAVRA "FRIO" */
+    };
+
+String textDica [] = {"Liguagem de Programação",
+        "Sentimento de afeto",
+        "Moradia",
+        "Futebol",
+        "Bebida quente",
+        "Queima",
+        "Estado sólido da Água",
+        "Sentimento de raiva",
+        "Video-game",
+        "Dormir",
+        "Esse layout é uma obra de ...",
+        "Partida esportiva",
+        "Coração da morena"
+};
 
 
+    /******************************************************************************************/
     private void gerarListener(){
         int i;
         for (i=0; i < btn.length; i++) {
@@ -47,9 +77,7 @@ public class MainActivity extends Activity{
     }
 
     /*********************************************************************************************/
-
-    int resposta[] = {9, 0, 21, 0}; /* GABARITO DE REPOSTA DA PALAVRA "JAVA" */
-    TextView txtResposta[] = new TextView[resposta.length];
+    TextView txtResposta[] = new TextView[resposta[palavraAleatoria].length];
     int contadorAcertos = 0; /* ESSE CONTADOR VAI IR ATÉ O NÚMERO 4 */
     int contadorErro = 4;
 
@@ -59,8 +87,8 @@ public class MainActivity extends Activity{
 
         int verificar = 0; /* VERIFICADOR PARA VER SE O USUÁRIO ACERTOU*/
 
-        for(int i = 0; i<resposta.length; i++){
-            if (tag == resposta[i]) {
+        for(int i = 0; i<resposta[palavraAleatoria].length; i++){
+            if (tag == resposta[palavraAleatoria][i]) {
                 verificar = 1;
                 int id = getResources().getIdentifier("txtLetra" + i, "id", getPackageName());
                 txtResposta[i] = findViewById(id);
@@ -68,7 +96,7 @@ public class MainActivity extends Activity{
                 view.setEnabled(false);
                 contadorAcertos++;
             }
-            else if(tag != resposta[i]){/* SETANDO O BTN PARA FALSE SEM COLOCAR O TXT NO TEXTVIEW, POIS O USUÁRIO NÃO ACERTOU */
+            else if(tag != resposta[palavraAleatoria][i]){/* SETANDO O BTN PARA FALSE SEM COLOCAR O TXT NO TEXTVIEW, POIS O USUÁRIO NÃO ACERTOU */
                 view.setEnabled(false);
             }
         }
@@ -97,6 +125,7 @@ public class MainActivity extends Activity{
                 Toast toast = Toast.makeText(this, "Você tem " + contadorErro + " chances", Toast.LENGTH_SHORT);
                 toast.show();
             }
+
         }
         /****************************************************************/
         if(contadorAcertos == 4){
@@ -147,8 +176,8 @@ public class MainActivity extends Activity{
         txtDica.setText("");
         btnDica.setEnabled(true);
         imgForca.setImageResource(R.drawable.forca);
-
-        for (int i = 0; i < resposta.length; i++) {
+        aleatorio();
+        for (int i = 0; i < resposta[palavraAleatoria].length; i++) {
 
             int id = getResources().getIdentifier("txtLetra" + i, "id", getPackageName());
             txtResposta[i] = findViewById(id);
@@ -158,14 +187,16 @@ public class MainActivity extends Activity{
 
         gerarListener();
     }
-
     public void dica(View v){
-
-        textDica = "Liguagem de programação";
-        speak.speak(textDica, TextToSpeech.QUEUE_FLUSH, null);
+        textDicaAux = textDica[palavraAleatoria];
+        speak.speak(textDicaAux, TextToSpeech.QUEUE_FLUSH, null);
         btnDica.setEnabled(false);
-        txtDica.setText(textDica);
+        txtDica.setText(textDicaAux);
 
+    }
+    public void aleatorio(){
+        Random gerador = new Random();
+        palavraAleatoria = gerador.nextInt(13);
     }
     /* ----------- Oncreate ----------- */
     @Override
@@ -181,15 +212,14 @@ public class MainActivity extends Activity{
         imgForca = new ImageView(this);
         imgForca = findViewById(R.id.imgForca);
         gerarListener();
+        aleatorio();
 
         speak = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if(status != TextToSpeech.ERROR){
-
-                    //Setando o idioma para o português
+                    //Setando o idioma para o português.
                     speak.setLanguage(new Locale("pt", "br"));
-
                 }
             }
         });
