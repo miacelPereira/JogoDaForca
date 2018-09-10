@@ -156,6 +156,7 @@ String textDica [] = {"Liguagem de Programação",
                 }
             });
             builder.create();
+            builder.setCancelable(false);
             builder.show();
         }else{
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -166,8 +167,10 @@ String textDica [] = {"Liguagem de Programação",
                 }
             });
             builder.create();
+            builder.setCancelable(false);
             builder.show();
         }
+
     }
     /* ---------------- REINICIAR JOGO ---------------- */
     private void reiniciarJogo() {
