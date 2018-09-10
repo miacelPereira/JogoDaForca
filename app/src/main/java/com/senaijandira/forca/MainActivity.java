@@ -24,12 +24,15 @@ public class MainActivity extends Activity{
     Button btn[] = new Button[26];
     Button btnDica;
     TextView txtDica;
+    TextView txtErro;
+    TextView txtAcerto;
     TextToSpeech speak;
     int quantAcertos = 0;
     int quantErros = 0;
     ImageView imgForca;
     String textDicaAux;
     int palavraAleatoria = 0;
+
 
     int resposta[][] = {
             {9, 0, 21, 0}, /* GABARITO DE REPOSTA DA PALAVRA "JAVA" */
@@ -130,15 +133,13 @@ String textDica [] = {"Liguagem de Programação",
         /****************************************************************/
         if(contadorAcertos == 4){
             quantAcertos++;
-            Toast toast = Toast.makeText(this, "Acertos: "+quantAcertos, Toast.LENGTH_SHORT);
-            toast.show();
+            txtAcerto.setText(quantAcertos + "");
             alert("Opá, Consagrado(a)!", "Temos um Campeão aqui!", "btn");
         }
         if(contadorErro == 0){
             quantErros++;
-            Toast toast = Toast.makeText(this, "Erros: "+quantErros, Toast.LENGTH_SHORT);
-            toast.show();
             alert("Eita...", "Você errou", "btn");
+            txtErro.setText(quantErros + "");
         }
 
         /***********************************************************/
@@ -208,6 +209,8 @@ String textDica [] = {"Liguagem de Programação",
         txtDica = findViewById(R.id.txtDica);
         btnDica = new Button(this);
         btnDica = findViewById(R.id.btnDica);
+        txtAcerto = findViewById(R.id.textAcerto);
+        txtErro = findViewById(R.id.textErro);
 
         imgForca = new ImageView(this);
         imgForca = findViewById(R.id.imgForca);
